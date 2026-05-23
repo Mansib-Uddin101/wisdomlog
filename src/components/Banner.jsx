@@ -4,39 +4,40 @@ import banner from '@/assets/pet_hero.png'
 
 const Banner = () => {
   return (
-    <section className="max-w-5/6 mx-auto rounded-xl mt-8 bg-[#F4EEE2] py-12 md:py-24 flex items-center justify-center overflow-hidden">
-      <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        {/* Left Column: Content */}
-        <div className="lg:col-span-6 flex flex-col space-y-6 text-center lg:text-left z-10">
-          <span className="text-sm font-bold tracking-wider text-[#D66237] uppercase">
+    <section className="max-w-5/6 mx-auto rounded-2xl mt-6 sm:mt-8 bg-[#F4EEE2] py-12 lg:py-28 overflow-hidden shadow-sm">
+      <div className="px-6 sm:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="lg:col-span-6 flex flex-col space-y-4 sm:space-y-6 text-center lg:text-left order-2 lg:order-1">
+          <span className="text-xs sm:text-sm font-bold tracking-wider text-[#D66237] uppercase">
             Find Your Perfect Match
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 tracking-tight leading-tight">
             Every pet deserves a <span className="text-[#D66237] italic font-serif">loving home</span>
           </h1>
-          <p className="text-base md:text-lg atext-slate-600 max-w-xl mx-auto lg:mx-0">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-xl mx-auto lg:mx-0">
             Open your heart and your home to a furry, feathered, or scaled companion. Connect with pet owners and adopt your new best buddy today.
           </p>
           
           <div>
-            <button className="bg-[#D66237] mt-2 hover:bg-[#8e5c36] text-white font-semibold px-8 py-3.5 rounded-lg transition-colors duration-200 shadow-md">
-              Adopt A Pet
+            {/* 6. Made button stretch on mobile for better thumb tap-targets */}
+            <button className="w-full sm:w-auto bg-[#D66237] mt-2 hover:bg-[#b74718] hover:scale-105 active:bg-[#96340e] text-white font-semibold px-8 py-3.5 rounded-lg transition duration-200 shadow-md">
+              Adopt Now
             </button>
           </div>
         </div>
 
         {/* Right Column: Image */}
-        <div className="lg:col-span-6 flex justify-center relative w-full">
-          
-          <Image
-            src={banner}
-            alt="A diverse group of happy shelter pets waiting for adoption"
-            width={750}
-            height={450}
-            priority
-            className="w-full max-w-xl h-auto object-contain mix-blend-multiply"
-          />
+        <div className="lg:col-span-6 flex justify-center order-1 lg:order-2">
+          {/* 7. Wrapped Next.js image in a controlled aspect container */}
+          <div className="w-full max-w-[320px] sm:max-w-md lg:max-w-xl aspect-5/3 relative">
+            <Image
+              src={banner}
+              alt="A diverse group of happy shelter pets waiting for adoption"
+              fill
+              priority
+              sizes="(max-w: 768px) 100vw, 50vw"
+              className="object-contain mix-blend-multiply"
+            />
+          </div>
         </div>
 
       </div>

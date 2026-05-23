@@ -2,6 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Mail, Phone, MapPin } from 'lucide-react'
+import Logo from './Logo'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -16,7 +17,7 @@ const Footer = () => {
           {/* Column 1: Brand Info */}
           <div className="lg:col-span-4 flex flex-col space-y-4">
             <Link href="/" className="text-2xl font-bold text-slate-800 tracking-tight">
-              Pet<span className="text-[#A76E43]">Buddy</span>
+              <Logo/>
             </Link>
             <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
               Your ultimate companion for all things pet care. Providing expert guides, curated resources, and premium literature for every pet owner.
