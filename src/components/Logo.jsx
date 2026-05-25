@@ -4,7 +4,6 @@ import { PawPrint } from 'lucide-react';
 export default function Logo() {
   return (
     <div className={`flex items-center`}>
-      {/* "Pet" in deep slate/blue-gray */}
       <span className="text-3xl font-extrabold tracking-tight text-[#315579]">
         Pet
       </span>
@@ -12,7 +11,6 @@ export default function Logo() {
       Buddy
       </span>
       
-      {/* Paw Icon matching the "Buddy" color, slightly tilted */}
       <PawPrint 
         className="m-1 w-8 h-8 text-[#D66237] transform rotate-12 stroke-[2.5]" 
         fill="currentColor" 

@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import React from 'react'
+import { FaBangladeshiTakaSign } from 'react-icons/fa6'
 
-const PetCard = () => {
+const PetCard = ({ petInfo }) => {
+    console.log(petInfo)
     const petData = {
         "_id": { "$oid": "664bdf1a2f3b4c1a8c8b4567" },
         "name": "Buddy",
@@ -21,47 +23,45 @@ const PetCard = () => {
     }
 
     return (
-        // Added 'relative' so the species badge anchors correctly inside the card
-        <div className='group relative max-w-sm rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all duration-300 hover:shadow-lg'>
-            
-            {/* Image Wrapper */}
+        <div className='group relative max-w-sm rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all duration-300 hover:shadow-lg flex flex-col justify-between'>
+
             <div className='relative h-64 w-full overflow-hidden'>
                 <Image
                     src={petData.imageUrl}
                     fill
                     className='object-cover transition-transform duration-500 ease-in-out group-hover:scale-105'
-                    alt={petData.name}
+                    alt={petInfo.name}
                     sizes='(max-w-768px) 100vw, 384px'
                 />
             </div>
 
-            {/* Species Badge - Now correctly positioned relative to the card wrapper */}
-            <span className='absolute top-3 left-3 bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm backdrop-blur-sm bg-opacity-90'>
-                {petData.species}
+            <span className='absolute top-3 left-3 bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full shadow-sm backdrop-blur-sm bg-opacity-90'>
+                {petInfo.species}
             </span>
 
-            {/* Content Container */}
             <div className='p-4'>
-                <h2 className='text-2xl font-bold text-gray-800 mb-1'>{petData.name}</h2>
-                
-                {/* Info Pills/Text */}
-                <div className='flex gap-3 text-sm text-gray-500 mb-4 font-medium'>
-                    <span className='text-gray-300'>•</span>
-                    <span>{petData.breed}</span>
-                    <span className='text-gray-300'>•</span>
-                    <span>{petData.age}</span>
-                    <span className='text-gray-300'>•</span>
-                    <span>{petData.vaccinationStatus}</span>
-                </div>
+                <h2 className='text-2xl font-bold text-gray-800 mb-1'>{petInfo.name}</h2>
 
-                {/* Refactored Button Actions */}
+                <div className='flex flex-wrap justify-arond items-center gap-1.5 text-sm text-gray-500 mb-4 font-medium'>
+                    <div className='flex items-center gap-1.5'>
+                        <span className='text-gray-300'>•</span>
+                        <span>{petInfo.breed}</span>
+                    </div>
+                    <div className='flex items-center gap-1.5'>
+                        <span className='text-gray-300'>•</span>
+                        <span>{petInfo.age}</span>
+                    </div>
+
+                    <div className='flex items-center gap-1.5'>
+                        <span className='text-gray-300'>•</span>
+                        <span className='flex items-center gap-1'>Adoption Fee: <span className='text-[#315579] font-semibold flex items-center'><FaBangladeshiTakaSign />{petInfo.adoptionFee}</span></span>
+                    </div>
+                </div>
                 <div className='grid grid-cols-2 gap-3 pt-1'>
-                    {/* Secondary Button: Outlined style to de-emphasize */}
-                    <button className='w-full py-2.5 px-4 rounded-xl border border-gray-300 text-[#315579] font-bold text-sm transition-all duration-300 hover:scale-105 active:bg-gray-100'>
+                    <button className='w-full py-1.5 px-2 rounded-xl border border-[#315579] text-[#315579] font-bold transition-all duration-300 hover:scale-105 active:bg-gray-100'>
                         View Details
                     </button>
-                    
-                    {/* Primary Button: Solid branding color matches your landing page */}
+
                     <button className='w-full py-2.5 px-4 rounded-xl bg-[#D66237] text-white font-semibold text-sm transition-all hover:scale-105 duration-300 active:bg-[#ae4725] shadow-sm'>
                         Adopt Now
                     </button>
