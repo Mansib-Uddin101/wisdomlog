@@ -3,9 +3,7 @@
 const PetDetailsPage = async ({ params }) => {
   const { id } = await params
   const res = await fetch(`http://localhost:8000/pets/${id}`)  
-  const singlePetData = await res.json()
-  console.log(singlePetData);
-  
+  const singlePetData = await res.json()  
 
   const currentUser = {
     name: "John Doe",
@@ -56,7 +54,7 @@ const PetDetailsPage = async ({ params }) => {
               alt={singlePetData.name}
               className="w-full h-full object-cover"
             />
-            <span className="absolute top-4 left-4 bg-amber-100 text-amber-700 font-semibold text-xs px-3 py-1 rounded-full">
+            <span className="absolute top-4 left-4 bg-amber-50 text-amber-800 border border-amber-200/50 font-bold text-xs px-3.5 py-1 rounded-full">
               {singlePetData.species}
             </span>
           </div>
@@ -69,7 +67,7 @@ const PetDetailsPage = async ({ params }) => {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6 text-sm text-slate-600">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6 text-slate-600">
               <div><strong className="text-slate-800">Breed:</strong> {singlePetData.breed}</div>
               <div><strong className="text-slate-800">Age:</strong> {singlePetData.age}</div>
               <div><strong className="text-slate-800">Location:</strong> {singlePetData.location}</div>

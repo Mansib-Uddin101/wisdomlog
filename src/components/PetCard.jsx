@@ -5,25 +5,6 @@ import { WithForm } from './AdoptModal'
 import Link from 'next/link'
 
 const PetCard = ({ petInfo }) => {
-    console.log(petInfo)
-    const petData = {
-        "_id": { "$oid": "664bdf1a2f3b4c1a8c8b4567" },
-        "name": "Buddy",
-        "species": "Dog",
-        "breed": "Golden Retriever",
-        "age": "2 years",
-        "gender": "Male",
-        "imageUrl": "https://i.ibb.co/G3dLJW2c/da89d930fc320dd912a2a25487b9ca86b37fcdd6-800x600.webp",
-        "healthStatus": "Excellent",
-        "vaccinationStatus": "Fully Vaccinated",
-        "location": "Dhaka, Bangladesh",
-        "adoptionFee": 0,
-        "description": "A very friendly and energetic golden retriever who loves playing fetch and is great with kids.",
-        "ownerEmail": "owner1@example.com",
-        "status": "available",
-        "createdAt": { "$date": "2026-05-20T10:00:00.000Z" }
-    }
-
     return (
         <div className='group relative max-w-sm rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all duration-300 hover:shadow-lg flex flex-col justify-between'>
 
@@ -37,7 +18,7 @@ const PetCard = ({ petInfo }) => {
                 />
             </div>
 
-            <span className='absolute top-3 left-3 bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full shadow-sm backdrop-blur-sm bg-opacity-90'>
+            <span className='absolute top-3 left-3 bg-amber-50 text-amber-800 border border-amber-200/50 text-xs font-bold px-3 py-1 rounded-full shadow-sm backdrop-blur-sm bg-opacity-90'>
                 {petInfo.species}
             </span>
 
