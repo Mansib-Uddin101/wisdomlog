@@ -59,7 +59,7 @@ const Navbar = () => {
 
                     {/* Right Group: Pushed to the far right using ml-auto */}
                     <div className="hidden md:flex items-center gap-4 ml-auto">
-                        <Link href={"/"} className="bg-[#D66237] text-white px-6 py-2.5 font-semibold rounded-md hover:bg-[#b74718] active:bg-[#96340e] transition">
+                        <Link href={"/"} className="bg-[#D66237] text-white px-6 py-2 font-semibold rounded-md hover:bg-[#b74718] active:bg-[#96340e] transition">
                             Login
                         </Link>
                     </div>

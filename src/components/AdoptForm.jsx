@@ -60,13 +60,13 @@ const AdoptForm = ({ petName }) => {
                     />
                 </TextField>
                 <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
-                    {pathName==="/all"? <Button slot="close" type="button" className="text-[#315579] bg-slate-50 border border-[#315579]">
+                    {pathName==="/all"? <Button slot="close" type="button" className="text-[#315579] text-[16px] bg-slate-50 border border-[#315579]">
                         Cancel
                     </Button> : ""}
                     
                     <Button
                         type="submit"
-                        className={`bg-[#D66237] text-white hover:bg-[#b54f2a] cursor-pointer ${pathName==="/all" ? "": "w-full"}`}
+                        className={`bg-[#D66237] text-white hover:bg-[#b54f2a] text-[16px] cursor-pointer ${pathName==="/all" ? "": "w-full"}`}
                     >
                         Request Adoption
                     </Button>

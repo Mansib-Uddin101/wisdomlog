@@ -1,5 +1,6 @@
 
 import AdoptForm from "@/components/AdoptForm";
+import Image from "next/image";
 
 const PetDetailsPage = async ({ params }) => {
   
@@ -26,36 +27,33 @@ const PetDetailsPage = async ({ params }) => {
   };
 
   return (
-    <div className="max-w-300 mx-auto px-5 py-10 font-sans text-slate-800">
+    <div className="max-w-5/6 mx-auto px-5 py-10 font-sans text-slate-800">
 
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-slate-900">Pet Details</h2>
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <div className="lg:col-span-3 bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100">
 
-        <div className="lg:col-span-2 bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100">
-
-          <div className="relative w-full h-100 bg-slate-100">
-            <img
+          <div className="relative w-full md:w-5/6 mx-auto h-100 md:p-2">
+            <Image
               src={singlePetData.imageUrl}
               alt={singlePetData.name}
-              className="w-full h-full object-cover"
+              width={400}
+              height={400}
+              className="w-full h-100 object-cover md:rounded-2xl"
             />
-            <span className="absolute top-4 left-4 bg-amber-50 text-amber-800 border border-amber-200/50 font-bold text-xs px-3.5 py-1 rounded-full">
-              {singlePetData.species}
-            </span>
+            
           </div>
 
           <div className="p-8">
             <div className="flex justify-between items-center mb-5">
-              <h1 className="text-3xl font-bold text-slate-900">{singlePetData.name}</h1>
+              <h1 className="text-[36px] font-bold text-slate-900">{singlePetData.name}</h1>
               <span className="text-xl font-bold text-[#315579]">
                 Fee: ৳{singlePetData.adoptionFee}
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6 text-slate-600">
+            <div className="grid sm:grid-cols-3 gap-2 mb-6 text-slate-600">
+              <div><strong className="text-slate-800">Species:</strong> {singlePetData.species}</div>
               <div><strong className="text-slate-800">Breed:</strong> {singlePetData.breed}</div>
               <div><strong className="text-slate-800">Age:</strong> {singlePetData.age}</div>
               <div><strong className="text-slate-800">Location:</strong> {singlePetData.location}</div>
@@ -67,7 +65,7 @@ const PetDetailsPage = async ({ params }) => {
             <p className="text-sm sm:text-base leading-relaxed text-slate-600">{singlePetData.description}</p>
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 sticky top-6">
+        <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-slate-200 sticky top-6">
           <h3 className="text-xl font-bold text-slate-900 mb-6">Adopt {singlePetData.name}</h3>
 
           <AdoptForm petName={petName}/>
