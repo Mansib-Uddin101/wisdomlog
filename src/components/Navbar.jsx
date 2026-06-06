@@ -15,7 +15,7 @@ const Navbar = () => {
     const userData = authClient.useSession()
     const user = userData.data?.user
     const handleSignOut = async () => {
-        
+
         await authClient.signOut()
         router.push('/');
     }
@@ -49,18 +49,22 @@ const Navbar = () => {
                                 All Pets
                             </Link>
 
-                            <Link
-                                href="/requests"
-                                className={`relative py-1 ${isActive('/requests') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
-                            >
-                                My Requests
-                            </Link>
-                            <Link
-                                href="/add"
-                                className={`relative py-1 ${isActive('/add-pet') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
-                            >
-                                Add Pet
-                            </Link>
+                            {!user ? (<></>) : (
+                                <>
+                                    <Link
+                                        href="/requests"
+                                        className={`relative py-1 ${isActive('/requests') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                    >
+                                        My Requests
+                                    </Link>
+                                    <Link
+                                        href="/add"
+                                        className={`relative py-1 ${isActive('/add-pet') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                    >
+                                        Add Pet
+                                    </Link>
+                                </>
+                            )}
                         </nav>
                     </div>
 

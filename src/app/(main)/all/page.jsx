@@ -3,7 +3,7 @@ import React from 'react'
 
 const Page = async () => {
   const res = await fetch("http://localhost:8000/pets")
-    const petsData = await res.json()
+  const petsData = await res.json()
   
   return (
     <div className='min-h-screen bg-slate-50/50 pb-16'>
