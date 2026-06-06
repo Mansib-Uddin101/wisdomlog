@@ -8,13 +8,16 @@ import { usePathname } from 'next/navigation'
 import { authClient } from "@/lib/auth-client"
 import { Avatar, Dropdown, Label } from "@heroui/react"
 import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons"
+import { useRouter } from "next/navigation"
 
 const Navbar = () => {
+    const router = useRouter()
     const userData = authClient.useSession()
     const user = userData.data?.user
     const handleSignOut = async () => {
         
         await authClient.signOut()
+        router.push('/');
     }
     const [isOpen, setIsOpen] = useState(false)
     const toggleMenu = () => setIsOpen(!isOpen)
@@ -90,11 +93,11 @@ const Navbar = () => {
                                             </div>
                                         </div>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item id="dashboard" textValue="Dashboard">
-                                                <Label>Dashboard</Label>
-                                            </Dropdown.Item>
                                             <Dropdown.Item id="profile" textValue="Profile">
                                                 <Label>Profile</Label>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item id="dashboard" textValue="Dashboard">
+                                                <Label>Dashboard</Label>
                                             </Dropdown.Item>
 
 
