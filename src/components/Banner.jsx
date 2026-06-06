@@ -10,7 +10,7 @@ const Banner = () => {
     <section className="max-w-5/6 mx-auto rounded-2xl mt-6 sm:mt-8 bg-[#F4EEE2] py-12 lg:py-28 overflow-hidden shadow-sm">
       <div className="px-6 sm:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         <div className="lg:col-span-6 flex flex-col space-y-4 sm:space-y-6 text-center lg:text-left order-2 lg:order-1">
-          <span className="flex items-center  gap-1.5 text-xs sm:text-sm font-bold tracking-wider text-[#D66237] uppercase">
+          <span className="flex items-center justify-center md:justify-normal gap-1.5 text-xs sm:text-sm font-bold tracking-wider text-[#D66237] uppercase">
             <ImQuotesLeft className='text-[10px]' />Find Your Perfect Match<ImQuotesRight className='text-[10px]'/>
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 tracking-tight leading-tight">
@@ -30,7 +30,7 @@ const Banner = () => {
         </div>
 
         <div className="lg:col-span-6 flex justify-center order-1 lg:order-2">
-          <div className="w-full max-w-[320px] sm:max-w-md lg:max-w-xl aspect-5/3 relative">
+          <div className="w-full aspect-5/3 relative">
             <Image
               src={banner}
               alt="A diverse group of happy shelter pets waiting for adoption"

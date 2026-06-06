@@ -33,18 +33,18 @@ const PetDetailsPage = async ({ params }) => {
 
         <div className="lg:col-span-3 bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100">
 
-          <div className="relative w-full md:w-5/6 mx-auto h-100 md:p-2">
+          <div className="relative w-full md:w-5/6 mx-auto h-100 md:pt-4">
             <Image
               src={singlePetData.imageUrl}
               alt={singlePetData.name}
               width={400}
               height={400}
-              className="w-full h-100 object-cover md:rounded-2xl"
+              className="w-full h-100 object-cover md:rounded-2xl shadow-xl"
             />
             
           </div>
 
-          <div className="p-8">
+          <div className="m-8 pt-2 mx-auto w-5/6">
             <div className="flex justify-between items-center mb-5">
               <h1 className="text-[36px] font-bold text-slate-900">{singlePetData.name}</h1>
               <span className="text-xl font-bold text-[#315579]">

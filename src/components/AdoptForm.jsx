@@ -48,6 +48,7 @@ const AdoptForm = ({ petName }) => {
                         value={formData.pickupDate}
                         min={todayStr}
                         onChange={(e) => setFormData({ ...formData, pickupDate: e.target.value })}
+                        className={"focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition-all border"}
                     />
                 </TextField>
                 <TextField className="w-full" name="message" isRequired>
@@ -57,6 +58,7 @@ const AdoptForm = ({ petName }) => {
                         placeholder="Tell us a bit about your experience with pets..."
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        className={"focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition-all border"}
                     />
                 </TextField>
                 <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
