@@ -59,7 +59,7 @@ const Navbar = () => {
                                     </Link>
                                     <Link
                                         href="/add"
-                                        className={`relative py-1 ${isActive('/add-pet') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                        className={`relative py-1 ${isActive('/add') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
                                     >
                                         Add Pet
                                     </Link>

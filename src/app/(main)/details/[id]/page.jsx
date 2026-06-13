@@ -57,6 +57,7 @@ const PetDetailsPage = async ({ params }) => {
               <div><strong className="text-slate-800">Breed:</strong> {singlePetData.breed}</div>
               <div><strong className="text-slate-800">Age:</strong> {singlePetData.age}</div>
               <div><strong className="text-slate-800">Location:</strong> {singlePetData.location}</div>
+              <div><strong className="text-slate-800">Vaccination Status:</strong> {singlePetData.vaccinationStatus}</div>
             </div>
 
             <hr className="border-t border-slate-200 my-6" />
