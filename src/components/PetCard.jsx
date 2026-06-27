@@ -1,13 +1,27 @@
+"use client"
 import Image from 'next/image'
 import React from 'react'
 import { FaBangladeshiTakaSign } from 'react-icons/fa6'
-import { AdoptModal, WithForm } from './AdoptModal'
+import { AdoptModal } from './AdoptModal'
 import Link from 'next/link'
+import { authClient } from '@/lib/auth-client'
+import toast from 'react-hot-toast' // or your preferred toast library
 
-const PetCard = ({ petInfo }) => {
+const PetCard = ({ petInfo, petOwner}) => {
+    const session = authClient.useSession()
+    const userId = session?.data?.user?.id
+    const isOwner = userId === petInfo.ownerId
+
+    const handleAdoptClickIntercept = (e) => {
+        if (isOwner) {
+            e.preventDefault()
+            e.stopPropagation()
+            toast.error("You cannot adopt your own listed pet!")
+        }
+    }
+
     return (
         <div className='group relative max-w-sm rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all duration-300 hover:shadow-lg flex flex-col justify-between'>
-
             <div className='relative h-64 w-full overflow-hidden'>
                 <Image
                     src={petInfo.imageUrl}
@@ -41,6 +55,7 @@ const PetCard = ({ petInfo }) => {
                         <span className='flex items-center gap-1'>Adoption Fee: <span className='text-[#315579] font-semibold flex items-center'><FaBangladeshiTakaSign />{petInfo.adoptionFee}</span></span>
                     </div>
                 </div>
+                
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 justify-around'>
                     <div>
                         <Link href={`/details/${petInfo._id}`}>
@@ -49,8 +64,8 @@ const PetCard = ({ petInfo }) => {
                             </button>
                         </Link>
                     </div>
-                    <div>
-                        <AdoptModal petInfo={petInfo} />
+                    <div onClick={handleAdoptClickIntercept} className={isOwner ? "cursor-not-allowed" : ""}>
+                        <AdoptModal petInfo={petInfo} petOwner={petOwner}/>
                     </div>
                 </div>
             </div>

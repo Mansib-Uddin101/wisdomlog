@@ -4,6 +4,7 @@ import React from 'react'
 const AllPage = async () => {
   const res = await fetch("http://localhost:8000/pets")
   const petsData = await res.json()
+  const petOwner = petsData.ownerId;
   
   return (
     <div className='min-h-screen bg-slate-50/50 pb-16'>
@@ -34,7 +35,7 @@ const AllPage = async () => {
         ) : (
           <div className='grid grid-cols-1 mx-auto md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8'>
             {petsData.map((pet) => (
-              <PetCard key={pet._id} petInfo={pet} />
+              <PetCard key={pet._id} petInfo={pet} petOwner={petOwner}/>
             ))}
           </div>
         )}
