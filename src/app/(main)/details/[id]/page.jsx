@@ -10,6 +10,9 @@ const PetDetailsPage = async ({ params }) => {
   const singlePetData = await res.json()  
   const petName =singlePetData.name;
   const ownerId = singlePetData.ownerId
+  const petId = singlePetData._id
+
+  
   
   const currentUser = {
     name: "John Doe",
@@ -71,7 +74,7 @@ const PetDetailsPage = async ({ params }) => {
         <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-slate-200 sticky top-6">
           <h3 className="text-xl font-bold text-slate-900 mb-6">Adopt {singlePetData.name}</h3>
 
-          <AdoptForm petName={petName} ownerId={ownerId}/>
+          <AdoptForm petName={petName} ownerId={ownerId} petId={petId}/>
 
         </div>
 

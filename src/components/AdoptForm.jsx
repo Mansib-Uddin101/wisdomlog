@@ -3,17 +3,24 @@ import { Button, Input, Label, TextArea, TextField } from "@heroui/react";
 import { usePathname } from "next/navigation";
 import { authClient } from '@/lib/auth-client'; 
 import { useState } from "react";
+import toast from "react-hot-toast";
 
-const AdoptForm = ({ petName, ownerId }) => {
+const AdoptForm = ({ petInfo }) => {
     const session = authClient.useSession()
     const userId = session?.data?.user?.id;
+    const userName = session?.data?.user?.name;
+    const userEmail = session?.data?.user?.email;
     const pathName = usePathname()
+    const ownerId = petInfo.ownerId
+    const petId = petInfo._id
+    const petName = petInfo.name
     
     const isOwner = userId === ownerId;
-
+    console.log(petId, ownerId, petName);
+    
     const currentUser = {
-        name: "John Doe",
-        email: "johndoe@example.com"
+        name: userName,
+        email: userEmail
     };
 
     const [formData, setFormData] = useState({
@@ -22,9 +29,44 @@ const AdoptForm = ({ petName, ownerId }) => {
     });
     
     const todayStr = new Date().toISOString().split('T')[0];
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleFormAction = async (formDataPayload) => {
-        console.log("Final Data: ", formData);
+    const handleFormAction = async () => {
+        setIsSubmitting(true);
+
+        const finalData = {
+            petId: petId || "",
+            ownerId: ownerId || "",
+            requesterId: userId || "",
+            petName: petName || "",
+            status: "Pending",
+            requestDate: new Date().toISOString(),
+            pickupDate: formData.pickupDate ? new Date(formData.pickupDate).toISOString() : ""
+        };
+
+        try {
+            const response = await fetch('http://localhost:8000/requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(finalData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit adoption request.');
+            }
+
+            toast.success("Adoption request submitted successfully! 🐾");
+            
+            setFormData({ pickupDate: "", message: "" });
+
+        } catch (error) {
+            console.error("Submission Error:", error);
+            toast.error(error.message || "Something went wrong. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (

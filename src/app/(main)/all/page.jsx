@@ -35,7 +35,7 @@ const AllPage = async () => {
         ) : (
           <div className='grid grid-cols-1 mx-auto md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8'>
             {petsData.map((pet) => (
-              <PetCard key={pet._id} petInfo={pet} petOwner={petOwner}/>
+              <PetCard key={pet._id} petInfo={pet} petId={pet._id} ownerId={pet.ownerId} />
             ))}
           </div>
         )}

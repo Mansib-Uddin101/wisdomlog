@@ -4,7 +4,7 @@ import { Button, Modal, Surface } from "@heroui/react";
 import AdoptForm from "./AdoptForm";
 import { authClient } from "@/lib/auth-client";
 
-export function AdoptModal({ petInfo }) {
+export function AdoptModal({ petInfo, petId }) {
     const petName = petInfo.name;
     const session = authClient.useSession();
     const userId = session?.data?.user?.id;
@@ -37,7 +37,7 @@ export function AdoptModal({ petInfo }) {
 
                         <Modal.Body className="p-6">
                             <Surface variant="default">
-                                <AdoptForm petName={petName} />
+                                <AdoptForm petInfo={petInfo}/>
                             </Surface>
                         </Modal.Body>
                     </Modal.Dialog>
