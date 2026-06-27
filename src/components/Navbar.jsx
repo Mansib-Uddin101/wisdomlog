@@ -80,7 +80,7 @@ const Navbar = () => {
                                     <Dropdown.Trigger className="rounded-full cursor-pointer">
                                         <Avatar size="lg" className="border-2 border-[#D66237]">
                                             <Avatar.Image alt={user?.name} src={user?.image} />
-                                            <Avatar.Fallback>JD</Avatar.Fallback>
+                                            <Avatar.Fallback></Avatar.Fallback>
                                         </Avatar>
                                     </Dropdown.Trigger>
                                     <Dropdown.Popover>

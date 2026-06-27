@@ -1,7 +1,7 @@
 import PetCard from '@/components/PetCard'
 import React from 'react'
 
-const Page = async () => {
+const AllPage = async () => {
   const res = await fetch("http://localhost:8000/pets")
   const petsData = await res.json()
   
@@ -43,4 +43,4 @@ const Page = async () => {
   )
 }
 
-export default Page
+export default AllPage

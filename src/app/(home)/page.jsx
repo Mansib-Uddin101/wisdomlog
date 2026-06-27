@@ -46,7 +46,7 @@ const HomePage = async () => {
             <p className="text-slate-400">Unable to load featured pets right now. Please try reloading.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
             {featuredPets.map((pet) => (
               <PetCard key={pet._id} petInfo={pet} />
             ))}
