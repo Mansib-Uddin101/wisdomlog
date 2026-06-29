@@ -57,7 +57,7 @@ const SignUpForm = () => {
                 <div className="p-8">
                     <div className="text-center mb-6">
                         <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight">Create an Account</h2>
-                        <p className="text-sm text-slate-500 mt-2">Join PetBuddy to find and manage your perfect companion.</p>
+                        <p className="text-sm text-slate-500 mt-2">Join WisdomLog and share your wisdom.</p>
                     </div>
 
                     <button
@@ -124,14 +124,14 @@ const SignUpForm = () => {
                                 type="password"
                                 placeholder="••••••••"
                                 required
-                                className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition-all text-slate-800 placeholder:text-slate-400"
+                                className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-all text-slate-800 placeholder:text-slate-400"
                             />
                         </div>
 
                         <div className="pt-4">
                             <button
                                 type="submit"
-                                className="w-full bg-[#D36B39] hover:bg-[#b9572b] text-white rounded-xl px-4 py-2.5 font-medium text-base transition-colors shadow-sm shadow-orange-700/10 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                                className="w-full bg-[#14B8A6] hover:bg-[#0F766E] text-white rounded-xl px-4 py-2.5 font-medium text-base transition-colors shadow-sm shadow-orange-700/10 focus:outline-none focus:ring-2 focus:ring-orange-300"
                             >
                                 Sign Up
                             </button>
@@ -140,7 +140,7 @@ const SignUpForm = () => {
 
                     <div className="mt-6 text-center text-sm">
                         <span className="text-slate-500">Already have an account? </span>
-                        <Link href="/signin" className="font-semibold text-[#D36B39] hover:underline transition-all">
+                        <Link href="/signin" className="font-semibold text-[#0F766E] hover:underline transition-all">
                             Login here
                         </Link>
                     </div>

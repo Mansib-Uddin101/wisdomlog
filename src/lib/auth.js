@@ -19,7 +19,23 @@ export const auth = betterAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }
-  },
+  },user: {
+        additionalFields: {
+            role: {
+                type: "string",
+                defaultValue: "user", // Automatically defaults to 'user' [cite: 185, 248]
+            },
+            isPremium: {
+                type: "boolean",
+                defaultValue: false, // Automatically defaults to false [cite: 185, 248]
+            },
+            photoURL: {
+                type: "string",
+                defaultValue: "", // Starts empty as requested
+            }
+        }
+    },
+    
   session: {
     cookieCache: {
       enabled: true,

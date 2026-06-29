@@ -9,7 +9,7 @@ export default function LessonCard({ lesson, isPremiumUser }) {
     <div className="group relative bg-white rounded-2xl border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md flex flex-col overflow-hidden h-full">
       
       {/* Upper Content Frame */}
-      <div className="p-6 flex flex-col flex-grow relative">
+      <div className="p-6 flex flex-col grow relative">
         
         {/* Badges and Access Tier Indicators */}
         <div className="flex items-center justify-between gap-2 mb-4">
@@ -51,7 +51,7 @@ export default function LessonCard({ lesson, isPremiumUser }) {
               <Lock className="w-6 h-6" />
             </div>
             <p className="text-sm font-bold text-[#1E293B] mb-1">Premium Lesson</p>
-            <p className="text-xs text-slate-600 mb-4 max-w-[180px]">Upgrade your layout to view this insight</p>
+            <p className="text-xs text-slate-600 mb-4 max-w-45">Upgrade your layout to view this insight</p>
             <Link 
               href="/pricing"
               className="text-xs font-semibold bg-[#0F766E] text-white px-4 py-2 rounded-xl hover:bg-[#14B8A6] transition-colors shadow-sm"
@@ -66,7 +66,7 @@ export default function LessonCard({ lesson, isPremiumUser }) {
           <div className="flex items-center gap-3">
             {/* User Avatar */}
             <img 
-              src={lesson.creator.photo} 
+              src={lesson.creator.photoURL} 
               alt={lesson.creator.name} 
               className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-100"
             />

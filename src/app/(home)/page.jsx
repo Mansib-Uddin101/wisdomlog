@@ -180,7 +180,7 @@ export default function HomePage() {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={staggerContainer}
-        className="w-full bg-[#FCF9F4] py-20 border-y border-slate-100"
+        className="w-full bg-emerald-50/50 py-20 border-y border-slate-100"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
