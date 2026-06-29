@@ -35,7 +35,9 @@ const SignUpForm = () => {
     });
     
     if (error) {
-      toast.error(error.message || "Google sign in failed");
+      toast.error(`Google sign in failed: ${error}`);
+      console.log(error);
+      
     }
   };
 
