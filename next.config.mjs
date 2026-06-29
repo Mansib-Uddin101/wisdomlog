@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// for image upload show
 const nextConfig = {
   images: {
     unoptimized: true,
