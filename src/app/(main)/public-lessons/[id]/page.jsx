@@ -124,6 +124,7 @@ export default async function LessonDetailsPage({ params }) {
             <div className="lg:col-span-2 space-y-6">
               <InteractionButtons 
                 initialLikes={lesson.likes || []}
+                lessonId = {id}
               />
               
               {/* Pass the dynamic comments fetched straight from your collection endpoint */}
