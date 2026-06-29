@@ -1,6 +1,7 @@
 "use client"
 import { authClient } from '@/lib/auth-client';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const AddPetForm = () => {
     const userData = authClient.useSession();
@@ -40,19 +41,24 @@ const AddPetForm = () => {
             ownerId: user?.id || "12345678988" // dynamically pull user ID or fallback
         };
 
-        console.log("Formatted Payload for API:", finalPayload);
-
-        // In your frontend page.jsx component:
+        const {data:tokenData} = await authClient.token()
         const res = await fetch('http://localhost:8000/pets', {
             method: "POST",
             headers: { 
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${tokenData?.token}`
             },
             body: JSON.stringify(finalPayload)
         });
 
-        const data = await res.json();
-        console.log(data);
+        if(!res.ok){
+            toast.error("Error! Please log in")
+        }
+        else{
+            toast.success("Pet added successfully! 🐾")
+        }
+        ;
+        
 
     };
 

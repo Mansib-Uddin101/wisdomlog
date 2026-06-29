@@ -3,7 +3,7 @@
 import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 const SignUpForm = () => {
     const router = useRouter()
@@ -15,6 +15,12 @@ const SignUpForm = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        
+        if (!passwordRegex.test(password)) {
+            toast.error("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, and a number.");
+            return; 
+        }
 
         const { data, error } = await authClient.signUp.email({
             name,
@@ -40,6 +46,8 @@ const SignUpForm = () => {
 
         if (error) {
             toast.error(error.message || "Google sign up failed");
+        }else {
+            toast.success("Logged In");
         }
     };
 

@@ -1,12 +1,20 @@
 
 import AdoptForm from "@/components/AdoptForm";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
 
 const PetDetailsPage = async ({ params }) => {
-  
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
   
   const { id } = await params
-  const res = await fetch(`http://localhost:8000/pets/${id}`)  
+  const res = await fetch(`http://localhost:8000/pets/${id}`, {
+    headers: {
+      authorization: `Bearer ${token}`
+    }
+  })  
   const singlePetData = await res.json()  
   const petName =singlePetData.name;
   const ownerId = singlePetData.ownerId
@@ -63,6 +71,7 @@ const PetDetailsPage = async ({ params }) => {
               <div><strong className="text-slate-800">Age:</strong> {singlePetData.age}</div>
               <div><strong className="text-slate-800">Location:</strong> {singlePetData.location}</div>
               <div><strong className="text-slate-800">Vaccination Status:</strong> {singlePetData.vaccinationStatus}</div>
+              <div><strong className="text-slate-800">Status:</strong> {singlePetData.status}</div>
             </div>
 
             <hr className="border-t border-slate-200 my-6" />
@@ -74,7 +83,7 @@ const PetDetailsPage = async ({ params }) => {
         <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-slate-200 sticky top-6">
           <h3 className="text-xl font-bold text-slate-900 mb-6">Adopt {singlePetData.name}</h3>
 
-          <AdoptForm petName={petName} ownerId={ownerId} petId={petId}/>
+          <AdoptForm petInfo={singlePetData}/>
 
         </div>
 

@@ -48,23 +48,25 @@ const Navbar = () => {
                             >
                                 All Pets
                             </Link>
+                            <Link
+                                href="/add"
+                                className={`relative py-1 ${isActive('/add') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                            >
+                                Add Pet
+                            </Link>
+                            <Link
+                                href="/listings"
+                                className={`relative py-1 ${isActive('/listings') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                            >
+                                My Listings
+                            </Link>
+                            <Link
+                                href="/requests"
+                                className={`relative py-1 ${isActive('/requests') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                            >
+                                Requests
+                            </Link>
 
-                            {!user ? (<></>) : (
-                                <>
-                                    <Link
-                                        href="/requests"
-                                        className={`relative py-1 ${isActive('/requests') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
-                                    >
-                                        My Requests
-                                    </Link>
-                                    <Link
-                                        href="/add"
-                                        className={`relative py-1 ${isActive('/add') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
-                                    >
-                                        Add Pet
-                                    </Link>
-                                </>
-                            )}
                         </nav>
                     </div>
 
@@ -97,10 +99,9 @@ const Navbar = () => {
                                             </div>
                                         </div>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item id="profile" textValue="Profile">
-                                                <Label>Profile</Label>
-                                            </Dropdown.Item>
-                                            <Dropdown.Item id="dashboard" textValue="Dashboard">
+
+                                            <Dropdown.Item id="dashboard" textValue="Dashboard" as={Link}
+                                                href="/add">
                                                 <Label>Dashboard</Label>
                                             </Dropdown.Item>
 
@@ -141,9 +142,7 @@ const Navbar = () => {
                     )}
                     <nav className="flex flex-col space-y-4 font-medium text-gray-700">
                         <Link href="/" onClick={toggleMenu} className="hover:text-[#D66237] transition">Home</Link>
-                        <Link href="/all" onClick={toggleMenu} className="hover:text-[#D66237] transition">All Pets</Link>
-                        <Link href="/requests" onClick={toggleMenu} className="hover:text-[#D66237] transition">My Requests</Link>
-                        <Link href="/add" onClick={toggleMenu} className="hover:text-[#D66237] transition">Add Pet</Link>
+                        <Link href="/add" onClick={toggleMenu} className="hover:text-[#D66237] transition">Dashboard</Link>
                     </nav>
 
                     <div className="pt-4 border-t border-gray-100">

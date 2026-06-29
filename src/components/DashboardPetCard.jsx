@@ -2,10 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { FaBangladeshiTakaSign } from 'react-icons/fa6'
-// Note: You may need to install react-icons if you haven't already: npm install react-icons
 import { FiEdit, FiTrash2, FiEye, FiInbox } from 'react-icons/fi' 
 
-const DashboardPetCard = ({ petInfo }) => {
+const DashboardPetCard = ({ petInfo, onViewRequests, onUpdate, onDelete }) => {
   return (
     <div className='group relative max-w-sm rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all duration-300 hover:shadow-lg flex flex-col justify-between'>
       
@@ -18,7 +17,7 @@ const DashboardPetCard = ({ petInfo }) => {
           alt={petInfo.name}
           sizes='(max-w-768px) 100vw, 384px'
         />
-        {/* Status Badge (Dynamic based on availability) */}
+        {/* Status Badge */}
         <span className={`absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full shadow-sm backdrop-blur-sm bg-opacity-90 ${petInfo.isAdopted ? 'bg-green-50 text-green-700 border-green-200' : 'bg-amber-50 text-[#D66237] border-amber-200'}`}>
           {petInfo.isAdopted ? 'Adopted' : 'Available'}
         </span>
@@ -43,20 +42,27 @@ const DashboardPetCard = ({ petInfo }) => {
             </button>
           </Link>
 
-          {/* Requests Button (Assuming it opens a modal, you can wrap this in your modal trigger) */}
-          <button className='w-full flex items-center justify-center gap-2 py-2 px-2 rounded-lg bg-blue-50 text-blue-700 font-medium transition-all hover:bg-blue-100 text-sm'>
+          {/* Requests Button */}
+          <button 
+            onClick={onViewRequests}
+            className='w-full flex items-center justify-center gap-2 py-2 px-2 rounded-lg bg-blue-50 text-blue-700 font-medium transition-all hover:bg-blue-100 text-sm'
+          >
             <FiInbox /> Requests
           </button>
 
-          {/* Edit Button */}
-          <Link href={`/update/${petInfo._id}`} className='w-full'>
-            <button className='w-full flex items-center justify-center gap-2 py-2 px-2 rounded-lg bg-amber-50 text-amber-700 font-medium transition-all hover:bg-amber-100 text-sm'>
-              <FiEdit /> Edit
-            </button>
-          </Link>
+          {/* Edit Button (Triggers the update modal) */}
+          <button 
+            onClick={onUpdate}
+            className='w-full flex items-center justify-center gap-2 py-2 px-2 rounded-lg bg-amber-50 text-amber-700 font-medium transition-all hover:bg-amber-100 text-sm'
+          >
+            <FiEdit /> Edit
+          </button>
 
           {/* Delete Button */}
-          <button className='w-full flex items-center justify-center gap-2 py-2 px-2 rounded-lg bg-red-50 text-red-600 font-medium transition-all hover:bg-red-100 text-sm'>
+          <button 
+            onClick={onDelete}
+            className='w-full flex items-center justify-center gap-2 py-2 px-2 rounded-lg bg-red-50 text-red-600 font-medium transition-all hover:bg-red-100 text-sm'
+          >
             <FiTrash2 /> Delete
           </button>
 
@@ -66,4 +72,4 @@ const DashboardPetCard = ({ petInfo }) => {
   )
 }
 
-export default DashboardPetCard
+export default DashboardPetCard;

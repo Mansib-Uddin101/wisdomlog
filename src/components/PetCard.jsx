@@ -1,18 +1,28 @@
 "use client"
 import Image from 'next/image'
-import React from 'react'
+import React, { useState, useEffect } from 'react' // Added useState and useEffect
 import { FaBangladeshiTakaSign } from 'react-icons/fa6'
 import { AdoptModal } from './AdoptModal'
 import Link from 'next/link'
 import { authClient } from '@/lib/auth-client'
-import toast from 'react-hot-toast' // or your preferred toast library
+import toast from 'react-hot-toast'
 
 const PetCard = ({ petInfo, petOwner}) => {
     const session = authClient.useSession()
     const userId = session?.data?.user?.id
-    const isOwner = userId === petInfo.ownerId
+    
+    // 1. Add a mounting state to delay client-only checks
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
+    // 2. Only compute isOwner after mounting to match the server's initial render
+    const isOwner = isMounted && userId === petInfo.ownerId
 
     const handleAdoptClickIntercept = (e) => {
+        
         if (isOwner) {
             e.preventDefault()
             e.stopPropagation()
@@ -64,8 +74,10 @@ const PetCard = ({ petInfo, petOwner}) => {
                             </button>
                         </Link>
                     </div>
+                    {/* 3. The class conditionally renders safe attributes now */}
                     <div onClick={handleAdoptClickIntercept} className={isOwner ? "cursor-not-allowed" : ""}>
-                        <AdoptModal petInfo={petInfo} petOwner={petOwner}/>
+                        {/* 4. Pass the calculated state down if the modal button needs to be disabled */}
+                        <AdoptModal petInfo={petInfo} petOwner={petOwner} isDisabled={isOwner} />
                     </div>
                 </div>
             </div>

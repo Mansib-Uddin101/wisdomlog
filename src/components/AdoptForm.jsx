@@ -14,9 +14,14 @@ const AdoptForm = ({ petInfo }) => {
     const ownerId = petInfo.ownerId
     const petId = petInfo._id
     const petName = petInfo.name
+
+    
+    
     
     const isOwner = userId === ownerId;
-    console.log(petId, ownerId, petName);
+    const isAdopted = petInfo.status === "adopted"
+    console.log(isAdopted);
+    
     
     const currentUser = {
         name: userName,
@@ -35,12 +40,14 @@ const AdoptForm = ({ petInfo }) => {
         setIsSubmitting(true);
 
         const finalData = {
+            requesterName: userName || "",
             petId: petId || "",
             ownerId: ownerId || "",
             requesterId: userId || "",
             petName: petName || "",
             status: "Pending",
             requestDate: new Date().toISOString(),
+            message: formData.message || "",
             pickupDate: formData.pickupDate ? new Date(formData.pickupDate).toISOString() : ""
         };
 
@@ -54,7 +61,7 @@ const AdoptForm = ({ petInfo }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to submit adoption request.');
+                return toast.error('You already submitted request!');
             }
 
             toast.success("Adoption request submitted successfully! 🐾");
@@ -116,18 +123,24 @@ const AdoptForm = ({ petInfo }) => {
                             Cancel
                         </Button>
                     )}
-
-                    <Button
+                    {isOwner? (<Button
                         type="submit"
                         isDisabled={isOwner}
+                        className={`text-white text-[16px] transition-all bg-gray-400 cursor-not-allowed" ${pathName === "/all" ? "" : "w-full"}`}
+                    >
+                        You own this pet
+                    </Button>):(<Button
+                        type="submit"
+                        isDisabled={isAdopted}
                         className={`text-white text-[16px] transition-all ${
-                            isOwner 
+                            isAdopted 
                             ? "bg-gray-400 cursor-not-allowed" 
                             : "bg-[#D66237] hover:bg-[#b54f2a] cursor-pointer"
                         } ${pathName === "/all" ? "" : "w-full"}`}
                     >
-                        {isOwner ? "You own this pet" : "Request Adoption"}
-                    </Button>
+                        {isAdopted ? "Pet Adopted!" : "Request Adoption"}
+                    </Button>)}
+                    
                 </div>
             </form>
         </div>

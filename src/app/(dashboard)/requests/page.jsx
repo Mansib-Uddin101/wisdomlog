@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { FiCheck, FiX, FiCalendar, FiClock } from 'react-icons/fi'
+import { FiCalendar, FiClock, FiX, FiLoader, FiAlertCircle } from 'react-icons/fi'
 import { authClient } from '@/lib/auth-client'
 
 const MyRequestsPage = () => {
@@ -10,6 +9,10 @@ const MyRequestsPage = () => {
 
   const [requestsData, setRequestsData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  
+  // Local state to keep track of which requests are actively deleting or had errors
+  const [deletingId, setDeletingId] = useState(null)
+  const [errorMessage, setErrorMessage] = useState("")
 
   useEffect(() => {
     if (!userId) {
@@ -22,7 +25,7 @@ const MyRequestsPage = () => {
     const fetchRequests = async () => {
       try {
         setIsLoading(true)
-        const res = await fetch(`http://localhost:8000/requests?ownerId=${userId}`)
+        const res = await fetch(`http://localhost:8000/requests?requesterId=${userId}`)
         if (res.ok) {
           const data = await res.json()
           setRequestsData(data)
@@ -37,29 +40,29 @@ const MyRequestsPage = () => {
     fetchRequests()
   }, [userId, session?.status])
 
-  // Function to handle Accept or Reject actions
-  const handleUpdateStatus = async (requestId, newStatus) => {
+  const handleCancelRequest = async (requestId) => {
+    setDeletingId(requestId)
+    setErrorMessage("")
+
     try {
       const res = await fetch(`http://localhost:8000/requests/${requestId}`, {
-        method: 'PATCH',
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: newStatus }),
-      })
+        }
+      });
 
       if (res.ok) {
-        // Optimistically update local UI state immediately
-        setRequestsData((prevData) =>
-          prevData.map((req) =>
-            req._id === requestId ? { ...req, status: newStatus } : req
-          )
-        )
+        setRequestsData((prevData) => prevData.filter((req) => req._id !== requestId));
       } else {
-        console.error("Failed to update status on server")
+        const errorData = await res.json().catch(() => ({}));
+        setErrorMessage(errorData.message || "Failed to cancel your request. Please try again.");
       }
     } catch (error) {
-      console.error("Error updating application status:", error)
+      console.error("Error cancelling request:", error);
+      setErrorMessage("Network error: Could not reach the server to cancel the request.");
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -101,23 +104,33 @@ const MyRequestsPage = () => {
         <div className='w-5/6 mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-4'>
           <div>
             <h1 className='text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight'>
-              Adoption Requests Dashboard
+              My Adoption Requests
             </h1>
             <p className='text-slate-500 mt-2 text-sm md:text-base'>
-              Review Incoming incoming pet applications. Accept or reject incoming placement requests.
+              Track the status of adoption applications you have submitted.
             </p>
           </div>
           <div className='text-sm text-slate-500 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 self-start md:self-auto font-medium'>
-            Total Incoming: <span className='font-bold text-slate-800'>{requestsData.length}</span>
+            Total Submitted: <span className='font-bold text-slate-800'>{requestsData.length}</span>
           </div>
         </div>
       </div>
 
       {/* Main Table Content */}
       <main className='w-5/6 mx-auto mt-10'>
+        
+        {/* Inline Custom Error Message Block */}
+        {errorMessage && (
+          <div className="mb-6 flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium shadow-2xs">
+            <FiAlertCircle className="shrink-0 text-base" />
+            <span className="flex-1">{errorMessage}</span>
+            <button onClick={() => setErrorMessage("")} className="text-red-400 hover:text-red-600 font-bold px-1">✕</button>
+          </div>
+        )}
+
         {requestsData.length === 0 ? (
           <div className='text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300'>
-            <p className='text-slate-400 font-medium'>No incoming adoption requests found.</p>
+            <p className='text-slate-400 font-medium'>You haven't made any adoption requests yet.</p>
           </div>
         ) : (
           <div className='bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden'>
@@ -130,14 +143,14 @@ const MyRequestsPage = () => {
                     <th className='py-4 px-6'>Request Date</th>
                     <th className='py-4 px-6'>Pickup Date</th>
                     <th className='py-4 px-6'>Status</th>
-                    <th className='py-4 px-6 text-right'>Actions / Decision</th>
+                    <th className='py-4 px-6 text-right'>Actions</th>
                   </tr>
                 </thead>
 
                 <tbody className='divide-y divide-slate-100 text-slate-700 text-sm md:text-base font-medium'>
                   {requestsData.map((request) => {
-                    const currentStatus = request.status?.toLowerCase();
-                    const isPending = currentStatus === 'pending' || !currentStatus;
+                    const isPending = !request.status || request.status.toLowerCase() === 'pending';
+                    const isDeletingThis = deletingId === request._id;
 
                     return (
                       <tr key={request._id} className='hover:bg-slate-50/50 transition-colors'>
@@ -170,40 +183,28 @@ const MyRequestsPage = () => {
                           </span>
                         </td>
 
-                        {/* Actions Cell */}
+                        {/* Actions Column */}
                         <td className='py-5 px-6 text-right'>
-                          <div className='flex items-center justify-end gap-3'>
-                            {isPending ? (
-                              <>
-                                {/* Accept Button */}
-                                <button
-                                  onClick={() => handleUpdateStatus(request._id, 'Approved')}
-                                  className='flex items-center gap-1 px-3 py-1.5 border border-emerald-600 bg-emerald-600 text-white rounded-lg text-xs font-bold transition-all hover:bg-emerald-700 active:scale-95 shadow-sm'
-                                  title="Accept Request"
-                                >
-                                  <FiCheck size={14} /> Accept
-                                </button>
-
-                                {/* Reject Button */}
-                                <button
-                                  onClick={() => handleUpdateStatus(request._id, 'Rejected')}
-                                  className='flex items-center gap-1 px-3 py-1.5 border border-red-200 bg-red-50 text-red-600 rounded-lg text-xs font-bold transition-all hover:bg-red-100 active:scale-95'
-                                  title="Reject Request"
-                                >
-                                  <FiX size={14} /> Reject
-                                </button>
-                              </>
-                            ) : (
-                              /* Static Text Label showing decision summary instead of buttons */
-                              <span className={`text-xs font-extrabold tracking-wider uppercase px-2 py-1 ${
-                                currentStatus === 'approved' || currentStatus === 'accepted' 
-                                  ? 'text-emerald-600' 
-                                  : 'text-red-500'
-                              }`}>
-                                {currentStatus === 'approved' || currentStatus === 'accepted' ? 'Accepted ✓' : 'Rejected ✕'}
-                              </span>
-                            )}
-                          </div>
+                          {isPending ? (
+                            <button
+                              onClick={() => handleCancelRequest(request._id)}
+                              disabled={deletingId !== null}
+                              className='inline-flex items-center gap-1 text-sm font-medium text-red-500 hover:text-red-700 hover:bg-red-50 disabled:opacity-50 disabled:hover:bg-transparent px-3 py-1.5 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-200'
+                              title="Cancel Request"
+                            >
+                              {isDeletingThis ? (
+                                <>
+                                  <FiLoader className="animate-spin" /> Cancelling...
+                                </>
+                              ) : (
+                                <>
+                                  <FiX /> Cancel
+                                </>
+                              )}
+                            </button>
+                          ) : (
+                            <span className="text-slate-400 text-sm italic">N/A</span>
+                          )}
                         </td>
 
                       </tr>
@@ -220,4 +221,4 @@ const MyRequestsPage = () => {
   )
 }
 
-export default MyRequestsPage
+export default MyRequestsPage;

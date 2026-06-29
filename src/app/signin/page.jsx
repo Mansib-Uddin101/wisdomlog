@@ -3,7 +3,7 @@
 import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 const SignUpForm = () => {
   const router = useRouter()
@@ -19,12 +19,11 @@ const SignUpForm = () => {
       password
     });
     
-    console.log({data, error});
 
     if (error) {
-      toast.error(error.message || "Failed to create account");
+      toast.error(error.message || "Failed to Log in");
     } else {
-      toast.success("Account created successfully!");
+      toast.success("Logged In successfully!");
       router.push('/');
     }
   };
@@ -36,7 +35,7 @@ const SignUpForm = () => {
     });
     
     if (error) {
-      toast.error(error.message || "Google sign up failed");
+      toast.error(error.message || "Google sign in failed");
     }
   };
 
