@@ -7,18 +7,20 @@ import Logo from "@/components/Logo"
 import { usePathname } from 'next/navigation'
 import { authClient } from "@/lib/auth-client"
 import { Avatar, Dropdown, Label } from "@heroui/react"
-import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons"
+import { ArrowRightFromSquare } from "@gravity-ui/icons"
 import { useRouter } from "next/navigation"
 
 const Navbar = () => {
     const router = useRouter()
     const userData = authClient.useSession()
     const user = userData.data?.user
+    console.log(user);
+    
     const handleSignOut = async () => {
-
         await authClient.signOut()
         router.push('/');
     }
+    
     const [isOpen, setIsOpen] = useState(false)
     const toggleMenu = () => setIsOpen(!isOpen)
 
@@ -34,7 +36,7 @@ const Navbar = () => {
                             <Logo />
                         </Link>
 
-                        <nav className="hidden md:flex space-x-8 font-medium text-gray-700">
+                        <nav className="hidden md:flex space-x-8 font-medium text-gray-700 items-center">
                             <Link
                                 href="/"
                                 className={`relative py-1 ${isActive('/') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
@@ -48,25 +50,40 @@ const Navbar = () => {
                             >
                                 Public Lessons
                             </Link>
-                            <Link
-                                href="/dashboard/add-lesson"
-                                className={`relative py-1 ${isActive('/dashboard/add-lesson') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
-                            >
-                                Add Lesson
-                            </Link>
-                            <Link
-                                href="/dashboard/my-lessons"
-                                className={`relative py-1 ${isActive('/dashboard/my-lessons') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
-                            >
-                                My Lessons
-                            </Link>
-                            <Link
-                                href="/pricing"
-                                className={`relative py-1 ${isActive('/pricing') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
-                            >
-                                Pricing
-                            </Link>
 
+                            {/* Logged-In Only Private Routes */}
+                            {user && (
+                                <>
+                                    <Link
+                                        href="/dashboard/add-lesson"
+                                        className={`relative py-1 ${isActive('/dashboard/add-lesson') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
+                                    >
+                                        Add Lesson
+                                    </Link>
+                                    <Link
+                                        href="/dashboard/my-lessons"
+                                        className={`relative py-1 ${isActive('/dashboard/my-lessons') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
+                                    >
+                                        My Lessons
+                                    </Link>
+                                </>
+                            )}
+
+                            {/* Access Rules: Pricing Link vs Premium Badge */}
+                            {user && (
+                                !user.isPremium ? (
+                                    <Link
+                                        href="/pricing"
+                                        className={`relative py-1 ${isActive('/pricing') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
+                                    >
+                                        Pricing
+                                    </Link>
+                                ) : (
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-50 text-[#0F766E] border border-emerald-200">
+                                        Premium ⭐
+                                    </span>
+                                )
+                            )}
                         </nav>
                     </div>
 
@@ -77,8 +94,8 @@ const Navbar = () => {
                             </Link>
                         ) : (
                             <div className="flex items-center gap-4">
-                                <p className="font-bold text-[#1E293B] text-2xl">{user?.name}</p>
-                                <Dropdown >
+                                <p className="font-bold text-[#1E293B] text-xl">{user?.name}</p>
+                                <Dropdown>
                                     <Dropdown.Trigger className="rounded-full cursor-pointer">
                                         <Avatar size="lg" className="border-2 border-[#0F766E]">
                                             <Avatar.Image alt={user?.name} src={user?.image} />
@@ -90,7 +107,7 @@ const Navbar = () => {
                                             <div className="flex items-center gap-2">
                                                 <Avatar size="sm">
                                                     <Avatar.Image alt={user?.name} src={user?.image} />
-                                                    <Avatar.Fallback>JD</Avatar.Fallback>
+                                                    <Avatar.Fallback>WL</Avatar.Fallback>
                                                 </Avatar>
                                                 <div className="flex flex-col gap-0">
                                                     <p className="text-sm leading-5 font-medium">{user?.name}</p>
@@ -99,13 +116,12 @@ const Navbar = () => {
                                             </div>
                                         </div>
                                         <Dropdown.Menu>
-
-                                            <Dropdown.Item id="dashboard" textValue="Dashboard" as={Link}
-                                                href="/add">
+                                            <Dropdown.Item id="dashboard" textValue="Dashboard" as={Link} href="/dashboard">
                                                 <Label>Dashboard</Label>
                                             </Dropdown.Item>
-
-
+                                            <Dropdown.Item id="profile" textValue="Profile" as={Link} href="/dashboard/profile">
+                                                <Label>Profile</Label>
+                                            </Dropdown.Item>
                                             <Dropdown.Item id="logout" textValue="Logout" variant="danger" onAction={handleSignOut}>
                                                 <div className="flex w-full items-center justify-between gap-2">
                                                     <Label>Log Out</Label>
@@ -127,22 +143,42 @@ const Navbar = () => {
                 </div>
             </div>
 
+            {/* Mobile Sidebar Navigation Dropdown */}
             {isOpen && (
                 <div className="md:hidden bg-white border-t border-gray-100 py-4 px-6 space-y-4 shadow-inner">
                     {user && (
-                        <div className="flex flex-col items-center justify-center p-2">
-                            <div>
-                                <Avatar size="lg" className="border-2 border-[#0F766E]">
-                                    <Avatar.Image alt={user?.name} src={user?.image} />
-                                    <Avatar.Fallback>JD</Avatar.Fallback>
-                                </Avatar>
-                            </div>
+                        <div className="flex flex-col items-center justify-center p-2 space-y-1">
+                            <Avatar size="lg" className="border-2 border-[#0F766E]">
+                                <Avatar.Image alt={user?.name} src={user?.image} />
+                                <Avatar.Fallback>WL</Avatar.Fallback>
+                            </Avatar>
                             <p className="font-bold text-[#1E293B] text-xl">{user?.name}</p>
+                            {user.isPremium && (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-50 text-[#0F766E] border border-emerald-200">
+                                    Premium ⭐
+                                </span>
+                            )}
                         </div>
                     )}
                     <nav className="flex flex-col space-y-4 font-medium text-gray-700">
                         <Link href="/" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Home</Link>
-                        <Link href="/add" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Dashboard</Link>
+                        <Link href="/public-lessons" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Public Lessons</Link>
+                        
+                        {user && (
+                            <>
+                                <Link href="/dashboard" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Dashboard</Link>
+                                <Link href="/dashboard/profile" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Profile</Link>
+                                <Link href="/dashboard/add-lesson" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Add Lesson</Link>
+                                <Link href="/dashboard/my-lessons" onClick={toggleMenu} className="hover:text-[#0F766E] transition">My Lessons</Link>
+                                
+                                {/* Mobile Upgrade State Guard */}
+                                {!user.isPremium && (
+                                    <Link href="/pricing" onClick={toggleMenu} className="hover:text-[#0F766E] text-[#0F766E] font-bold transition">
+                                        Pricing / Upgrade ⚡
+                                    </Link>
+                                )}
+                            </>
+                        )}
                     </nav>
 
                     <div className="pt-4 border-t border-gray-100">

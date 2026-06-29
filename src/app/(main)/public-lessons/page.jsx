@@ -2,12 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import LessonCard from '@/components/LessonCard'
+import { authClient } from '@/lib/auth-client'
 
 export default function PublicLessonsPage() {
   const [lessons, setLessons] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  
+
+  const userData = authClient.useSession()
+  const user = userData.data?.user
+
   // Challenge 1 States: Search + Filter + Sort Controls
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
@@ -15,7 +19,7 @@ export default function PublicLessonsPage() {
   const [sort, setSort] = useState('newest')
 
   // Hardcoded premium flag placeholder since it's referenced in the card props
-  const isCurrentUserPremium = false
+  const isCurrentUserPremium = user?.isPremium
 
   // Fetch data from localhost backend
   useEffect(() => {
@@ -23,11 +27,11 @@ export default function PublicLessonsPage() {
       try {
         setLoading(true)
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons`)
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`)
         }
-        
+
         const data = await response.json()
         setLessons(data)
       } catch (err) {
@@ -43,8 +47,8 @@ export default function PublicLessonsPage() {
   // Optional: Client-side filtering logic based on your states
   const filteredLessons = lessons
     .filter((lesson) => {
-      const matchesSearch = lesson.title.toLowerCase().includes(search.toLowerCase()) || 
-                            lesson.description.toLowerCase().includes(search.toLowerCase())
+      const matchesSearch = lesson.title.toLowerCase().includes(search.toLowerCase()) ||
+        lesson.description.toLowerCase().includes(search.toLowerCase())
       const matchesCategory = category ? lesson.category === category : true
       const matchesTone = tone ? lesson.emotionalTone === tone : true
       return matchesSearch && matchesCategory && matchesTone
@@ -62,7 +66,7 @@ export default function PublicLessonsPage() {
   return (
     <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Page Heading Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-[#1E293B] tracking-tight sm:text-5xl">
@@ -84,10 +88,10 @@ export default function PublicLessonsPage() {
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0F766E] text-slate-700 text-sm"
             />
           </div>
-          
+
           <div className="w-full lg:w-2/3 flex flex-wrap sm:flex-nowrap gap-3 justify-end">
-            <select 
-              value={category} 
+            <select
+              value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full sm:w-auto px-3 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
             >
@@ -99,8 +103,8 @@ export default function PublicLessonsPage() {
               <option value="Mistakes Learned">Mistakes Learned</option>
             </select>
 
-            <select 
-              value={tone} 
+            <select
+              value={tone}
               onChange={(e) => setTone(e.target.value)}
               className="w-full sm:w-auto px-3 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
             >
@@ -111,8 +115,8 @@ export default function PublicLessonsPage() {
               <option value="Gratitude">Gratitude</option>
             </select>
 
-            <select 
-              value={sort} 
+            <select
+              value={sort}
               onChange={(e) => setSort(e.target.value)}
               className="w-full sm:w-auto px-3 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
             >
@@ -145,10 +149,10 @@ export default function PublicLessonsPage() {
         {!loading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
             {filteredLessons.map((lesson, idx) => (
-              <LessonCard 
+              <LessonCard
                 key={lesson.title || idx} // Uses title/index since _id was removed
-                lesson={lesson} 
-                isPremiumUser={isCurrentUserPremium} 
+                lesson={lesson}
+                isPremiumUser={isCurrentUserPremium}
               />
             ))}
           </div>

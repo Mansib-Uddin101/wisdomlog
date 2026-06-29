@@ -6,12 +6,12 @@ import { FacebookShareButton, TwitterShareButton, FacebookIcon, XIcon } from 're
 import toast from 'react-hot-toast'
 import { authClient } from '@/lib/auth-client'
 
-export default function InteractionButtons({ initialLikes = [], lessonId }) {
+export default function InteractionButtons({ initialLikes = [], lessonId, lesson }) {
   const { data: session } = authClient.useSession()
   const currentUser = session?.user
-  
+
   // Safely grab the user ID (adjust depending on if your DB uses id or _id)
-  const currentUserId = currentUser?.id || currentUser?._id 
+  const currentUserId = currentUser?.id || currentUser?._id
 
   // States
   const [likes, setLikes] = useState(Array.isArray(initialLikes) ? initialLikes : [])
@@ -34,11 +34,11 @@ export default function InteractionButtons({ initialLikes = [], lessonId }) {
       try {
         // Replace this URL with your actual endpoint for checking a user's favorite
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites/check?lessonId=${lessonId}&userId=${currentUserId}`)
-        
+
         if (response.ok) {
           const data = await response.json()
           // Assuming your API returns { isSaved: true/false }
-          setIsSaved(data.isSaved) 
+          setIsSaved(data.isSaved)
         }
       } catch (error) {
         console.error("Failed to verify saved status:", error)
@@ -53,7 +53,7 @@ export default function InteractionButtons({ initialLikes = [], lessonId }) {
   // 2. Handle Like Toggle
   const handleLike = () => {
     if (!currentUserId) return toast.error('Please log in to like')
-    
+
     // Note: You likely need an API call here to persist the like to the database!
     setLikes(hasLiked ? likes.filter(id => id !== currentUserId) : [...likes, currentUserId])
   }
@@ -98,27 +98,52 @@ export default function InteractionButtons({ initialLikes = [], lessonId }) {
     }
   }
 
-  const submitReport = () => {
+  const submitReport = async () => {
     if (!reportReason) return toast.error("Please select a reason")
-    
-    toast.success(`Report submitted for reason: ${reportReason}`)
-    setIsReportModalOpen(false)
-    setReportReason('')
+    const reportData = {
+      lessonId: lessonId,
+      reporterUserId: currentUser?.id,
+      reportedUserId: lesson.creatorId,
+      reason: reportReason,
+      timestamp: new Date().toISOString()
+    }
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lesson-reports`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reportData),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `Server responded with status ${response.status}`)
+      }
+
+
+      toast.success(`Report submitted for reason: ${reportReason}`)
+      setIsReportModalOpen(false)
+      setReportReason('')
+
+    } catch (error) {
+      // Fixed toast argument misuse
+      const errorMessage = error instanceof Error ? error.message : "Failed to save lesson"
+      toast.error(errorMessage)
+      console.error("Submission Error:", error)
+    }
   }
 
   return (
     <>
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-3 items-center justify-between">
         <div className="flex gap-2">
-          
+
           {/* Like Button */}
           <button
             onClick={handleLike}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-              hasLiked 
-                ? 'bg-rose-50 text-rose-600 border border-rose-200' 
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${hasLiked
+                ? 'bg-rose-50 text-rose-600 border border-rose-200'
                 : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
-            }`}
+              }`}
           >
             <Heart className={`w-4 h-4 ${hasLiked ? 'fill-current' : ''}`} />
             {hasLiked ? 'Liked' : 'Like'}
@@ -128,11 +153,10 @@ export default function InteractionButtons({ initialLikes = [], lessonId }) {
           <button
             onClick={handleSave}
             disabled={isSaving || isCheckingSaved || isSaved} // Lock if saving, checking, or already saved
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-              isSaved 
-                ? 'bg-amber-50 text-amber-600 border border-amber-200 opacity-80 cursor-not-allowed' 
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${isSaved
+                ? 'bg-amber-50 text-amber-600 border border-amber-200 opacity-80 cursor-not-allowed'
                 : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 disabled:opacity-50'
-            }`}
+              }`}
           >
             <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
             {isCheckingSaved ? 'Checking...' : isSaving ? 'Saving...' : isSaved ? 'Saved' : 'Save'}
@@ -181,15 +205,15 @@ export default function InteractionButtons({ initialLikes = [], lessonId }) {
                 <option value="Inappropriate">Inappropriate content</option>
               </select>
               <div className="flex justify-end gap-3 pt-4">
-                <button 
-                  onClick={() => setIsReportModalOpen(false)} 
+                <button
+                  onClick={() => setIsReportModalOpen(false)}
                   className="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors"
                 >
                   Cancel
                 </button>
-                <button 
-                  onClick={submitReport} 
-                  disabled={!reportReason} 
+                <button
+                  onClick={submitReport}
+                  disabled={!reportReason}
                   className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-xl disabled:opacity-50 hover:bg-red-700 transition-colors"
                 >
                   Submit

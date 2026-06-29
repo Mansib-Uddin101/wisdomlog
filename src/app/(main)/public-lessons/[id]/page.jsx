@@ -3,9 +3,15 @@ import Link from 'next/link'
 import { Calendar, Eye, Lock } from 'lucide-react'
 import InteractionButtons from '@/components/InteractionButtons'
 import CommentSection from '@/components/CommentSection'
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
 
 export default async function LessonDetailsPage({ params }) {
   const { id } = await params
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+  const user = session.data?.user
 
   // 1. Fetch lesson and comments simultaneously from your local API routes
   const [lessonRes, commentsRes] = await Promise.all([
@@ -20,10 +26,11 @@ export default async function LessonDetailsPage({ params }) {
   const lesson = await lessonRes.json()
   // Fallback to empty array if comments route fails or returns empty
   const comments = commentsRes.ok ? await commentsRes.json() : []
-  const isLocked = lesson.accessLevel === "Premium"
+  const isLocked = user?.isPremium
+  console.log(lesson.creatorId);
 
   // Simulated Current Session Auth
-  
+
 
   return (
     <div className="bg-slate-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
@@ -32,9 +39,9 @@ export default async function LessonDetailsPage({ params }) {
         {/* Lesson Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
           {lesson.featuredImage && (
-            <img 
-              src={lesson.featuredImage} 
-              alt={lesson.title} 
+            <img
+              src={lesson.featuredImage}
+              alt={lesson.title}
               className="w-full h-64 md:h-80 object-cover"
             />
           )}
@@ -83,9 +90,9 @@ export default async function LessonDetailsPage({ params }) {
             <div className="space-y-6">
               {/* Creator Profile Card */}
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center text-center">
-                <img 
-                  src={lesson.creator?.photoURL || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150'} 
-                  alt="Creator" 
+                <img
+                  src={lesson.creator?.photoURL || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150'}
+                  alt="Creator"
                   className="w-20 h-20 rounded-full object-cover ring-4 ring-slate-50 mb-3"
                 />
                 <h3 className="font-bold text-lg text-[#1E293B]">{lesson.creator?.name || 'Anonymous Creator'}</h3>
@@ -122,15 +129,17 @@ export default async function LessonDetailsPage({ params }) {
 
             {/* Right Column */}
             <div className="lg:col-span-2 space-y-6">
-              <InteractionButtons 
+              <InteractionButtons
                 initialLikes={lesson.likes || []}
-                lessonId = {id}
+                lessonId={id}
+
+                lesson={lesson}
               />
-              
+
               {/* Pass the dynamic comments fetched straight from your collection endpoint */}
-              <CommentSection 
-                comments={comments} 
-                lessonId = {id}
+              <CommentSection
+                comments={comments}
+                lessonId={id}
               />
             </div>
           </div>

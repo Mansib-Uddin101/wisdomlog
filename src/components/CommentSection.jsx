@@ -37,10 +37,7 @@ export default function CommentSection({ comments, lessonId }) {
                 body: JSON.stringify(commentPostData),
             });
 
-            console.log(response);
-            
-
-            console.log(commentPostData);
+            toast.success("comment posted successfully")
         } catch (error) {
             toast.error("Submission Error:", error);
             console.error("Submission Error:", error);
