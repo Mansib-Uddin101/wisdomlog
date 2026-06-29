@@ -37,34 +37,34 @@ const Navbar = () => {
                         <nav className="hidden md:flex space-x-8 font-medium text-gray-700">
                             <Link
                                 href="/"
-                                className={`relative py-1 ${isActive('/') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                className={`relative py-1 ${isActive('/') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
                             >
                                 Home
                             </Link>
 
                             <Link
-                                href="/all"
-                                className={`relative py-1 ${isActive('/all') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                href="/public-lessons"
+                                className={`relative py-1 ${isActive('/public-lessons') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
                             >
-                                All Pets
+                                Public Lessons
                             </Link>
                             <Link
-                                href="/add"
-                                className={`relative py-1 ${isActive('/add') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                href="/dashboard/add-lesson"
+                                className={`relative py-1 ${isActive('/dashboard/add-lesson') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
                             >
-                                Add Pet
+                                Add Lesson
                             </Link>
                             <Link
-                                href="/listings"
-                                className={`relative py-1 ${isActive('/listings') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                href="/dashboard/my-lessons"
+                                className={`relative py-1 ${isActive('/dashboard/my-lessons') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
                             >
-                                My Listings
+                                My Lessons
                             </Link>
                             <Link
-                                href="/requests"
-                                className={`relative py-1 ${isActive('/requests') ? 'text-[#D66237]' : ''} hover:text-[#D66237] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#AF5B36] after:transition-all after:duration-300 hover:after:w-full`}
+                                href="/pricing"
+                                className={`relative py-1 ${isActive('/pricing') ? 'text-[#0F766E]' : ''} hover:text-[#0F766E] transition-colors duration-300 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-[#0F766E] after:transition-all after:duration-300 hover:after:w-full`}
                             >
-                                Requests
+                                Pricing
                             </Link>
 
                         </nav>
@@ -72,15 +72,15 @@ const Navbar = () => {
 
                     <div className="hidden md:flex items-center gap-4 ml-auto">
                         {!user ? (
-                            <Link href={"/signin"} className="bg-[#D66237] text-white px-6 py-2 font-semibold rounded-md hover:bg-[#b74718] active:bg-[#96340e] transition">
+                            <Link href={"/signin"} className="bg-[#0F766E] text-white px-6 py-2 font-semibold rounded-md hover:bg-[#14B8A6] active:bg-[#14B8A6] transition">
                                 Login
                             </Link>
                         ) : (
                             <div className="flex items-center gap-4">
-                                <p className="font-bold text-[#315579] text-2xl">{user?.name}</p>
+                                <p className="font-bold text-[#1E293B] text-2xl">{user?.name}</p>
                                 <Dropdown >
                                     <Dropdown.Trigger className="rounded-full cursor-pointer">
-                                        <Avatar size="lg" className="border-2 border-[#D66237]">
+                                        <Avatar size="lg" className="border-2 border-[#0F766E]">
                                             <Avatar.Image alt={user?.name} src={user?.image} />
                                             <Avatar.Fallback></Avatar.Fallback>
                                         </Avatar>
@@ -132,22 +132,22 @@ const Navbar = () => {
                     {user && (
                         <div className="flex flex-col items-center justify-center p-2">
                             <div>
-                                <Avatar size="lg" className="border-2 border-[#D66237]">
+                                <Avatar size="lg" className="border-2 border-[#0F766E]">
                                     <Avatar.Image alt={user?.name} src={user?.image} />
                                     <Avatar.Fallback>JD</Avatar.Fallback>
                                 </Avatar>
                             </div>
-                            <p className="font-bold text-[#315579] text-xl">{user?.name}</p>
+                            <p className="font-bold text-[#1E293B] text-xl">{user?.name}</p>
                         </div>
                     )}
                     <nav className="flex flex-col space-y-4 font-medium text-gray-700">
-                        <Link href="/" onClick={toggleMenu} className="hover:text-[#D66237] transition">Home</Link>
-                        <Link href="/add" onClick={toggleMenu} className="hover:text-[#D66237] transition">Dashboard</Link>
+                        <Link href="/" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Home</Link>
+                        <Link href="/add" onClick={toggleMenu} className="hover:text-[#0F766E] transition">Dashboard</Link>
                     </nav>
 
                     <div className="pt-4 border-t border-gray-100">
                         {!user ? (
-                            <Link href="/signin" onClick={toggleMenu} className="bg-[#D66237] text-white block text-center px-6 py-2 font-semibold rounded-md hover:bg-[#b74718] active:bg-[#96340e] transition">
+                            <Link href="/signin" onClick={toggleMenu} className="bg-[#0F766E] text-white block text-center px-6 py-2 font-semibold rounded-md hover:bg-[#14B8A6] active:bg-[#14B8A6] transition">
                                 Login
                             </Link>
                         ) : (

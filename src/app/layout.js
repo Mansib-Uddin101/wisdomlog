@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "PetBuddy",
-  description: "Pet Adoption Platform",
+  title: "WisdomLog",
+  description: "Share your wisdom",
 };
 
 export default function RootLayout({ children }) {
