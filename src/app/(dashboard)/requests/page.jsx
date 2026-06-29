@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { FiCalendar, FiClock, FiX, FiLoader, FiAlertCircle } from 'react-icons/fi'
 import { authClient } from '@/lib/auth-client'
 
-const MyRequestsPage = () => {
+const MyRequestsPage =  () => {
   const session = authClient.useSession()
   const userId = session?.data?.user?.id
 
   const [requestsData, setRequestsData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  
+
   // Local state to keep track of which requests are actively deleting or had errors
   const [deletingId, setDeletingId] = useState(null)
   const [errorMessage, setErrorMessage] = useState("")
@@ -25,7 +25,11 @@ const MyRequestsPage = () => {
     const fetchRequests = async () => {
       try {
         setIsLoading(true)
-        const res = await fetch(`http://localhost:8000/requests?requesterId=${userId}`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests?requesterId=${userId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
         if (res.ok) {
           const data = await res.json()
           setRequestsData(data)
@@ -45,10 +49,10 @@ const MyRequestsPage = () => {
     setErrorMessage("")
 
     try {
-      const res = await fetch(`http://localhost:8000/requests/${requestId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests/${requestId}`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         }
       });
 
@@ -118,7 +122,7 @@ const MyRequestsPage = () => {
 
       {/* Main Table Content */}
       <main className='w-5/6 mx-auto mt-10'>
-        
+
         {/* Inline Custom Error Message Block */}
         {errorMessage && (
           <div className="mb-6 flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium shadow-2xs">

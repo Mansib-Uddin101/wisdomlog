@@ -28,7 +28,7 @@ const MyListingsPage = () => {
 
   const fetchMyPets = async () => {
     try {
-      const res = await fetch(`http://localhost:8000/my-listings?ownerId=${userId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-listings?ownerId=${userId}`);
       const data = await res.json();
       setPetsData(data);
     } catch (error) {
@@ -50,7 +50,7 @@ const MyListingsPage = () => {
 
   const handleDelete = async () => {
     try {
-      await fetch(`http://localhost:8000/pets/${petToDelete._id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${petToDelete._id}`, {
         method: 'DELETE',
       });
       // Update UI after delete
@@ -76,7 +76,7 @@ const MyListingsPage = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`http://localhost:8000/pets/${petToUpdate._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${petToUpdate._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(petToUpdate),
@@ -105,7 +105,7 @@ const MyListingsPage = () => {
     setRequestsLoading(true);
     try {
       // Assuming you have an endpoint that fetches requests by pet ID
-      const res = await fetch(`http://localhost:8000/pet-requests?petId=${pet._id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pet-requests?petId=${pet._id}`);
       const data = await res.json();
       setActiveRequests(data);
     } catch (error) {
@@ -120,7 +120,7 @@ const MyListingsPage = () => {
     // Normalize status to lowercase to match the backend expectations perfectly
     const normalizedStatus = newStatus.toLowerCase();
 
-    const res = await fetch(`http://localhost:8000/requests/${requestId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests/${requestId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: normalizedStatus }),

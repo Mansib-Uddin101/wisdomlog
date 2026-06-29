@@ -52,7 +52,7 @@ const AdoptForm = ({ petInfo }) => {
         };
 
         try {
-            const response = await fetch('http://localhost:8000/requests', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

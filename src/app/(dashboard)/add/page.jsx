@@ -41,12 +41,10 @@ const AddPetForm = () => {
             ownerId: user?.id || "12345678988" // dynamically pull user ID or fallback
         };
 
-        const {data:tokenData} = await authClient.token()
-        const res = await fetch('http://localhost:8000/pets', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets`, {
             method: "POST",
             headers: { 
-                'Content-Type': 'application/json',
-                authorization: `Bearer ${tokenData?.token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(finalPayload)
         });

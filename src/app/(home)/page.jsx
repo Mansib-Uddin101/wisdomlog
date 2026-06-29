@@ -6,7 +6,7 @@ import Banner from '@/components/Banner'
 const getFeaturedPets = async () => {
   try {
     // Fetching the pets data from your local backend server
-    const res = await fetch("http://localhost:8000/pets")
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets`)
     const allPets = await res.json()
     return allPets.slice(0, 6)
   } catch (error) {
