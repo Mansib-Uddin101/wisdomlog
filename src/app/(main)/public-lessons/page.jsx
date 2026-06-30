@@ -33,6 +33,7 @@ export default function PublicLessonsPage() {
         }
 
         const data = await response.json()
+        
         setLessons(data)
       } catch (err) {
         setError(err.message)
@@ -135,7 +136,7 @@ export default function PublicLessonsPage() {
 
         {error && (
           <div className="text-center py-20 text-red-500 font-medium">
-            Error loading lessons: {error}. Make sure your local server is running on port 8000!
+            Error loading lessons: {error}.
           </div>
         )}
 

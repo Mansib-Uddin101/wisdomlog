@@ -15,8 +15,8 @@ export default async function LessonDetailsPage({ params }) {
 
   // 1. Fetch lesson and comments simultaneously from your local API routes
   const [lessonRes, commentsRes] = await Promise.all([
-    fetch(`http://localhost:8000/lessons/${id}`, { cache: 'no-store' }),
-    fetch(`http://localhost:8000/comments?lessonId=${id}`, { cache: 'no-store' }) // Adjust route if your API matches another pattern
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons/${id}`, { cache: 'no-store' }),
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments?lessonId=${id}`, { cache: 'no-store' }) // Adjust route if your API matches another pattern
   ])
 
   if (!lessonRes.ok) {
@@ -28,6 +28,11 @@ export default async function LessonDetailsPage({ params }) {
   const comments = commentsRes.ok ? await commentsRes.json() : []
   const isLocked = user?.isPremium
   console.log(lesson.creatorId);
+  const date = new Date(lesson.createdAt)
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  const published = new Intl.DateTimeFormat('en-US', options).format(date);
+  console.log(published);
+  
 
   // Simulated Current Session Auth
 
@@ -106,7 +111,7 @@ export default async function LessonDetailsPage({ params }) {
                 <h4 className="font-bold text-slate-800 border-b border-slate-100 pb-2 mb-3">Info</h4>
                 <div className="flex items-center gap-3 text-sm text-slate-600">
                   <Calendar className="w-4 h-4 text-slate-400" />
-                  <span>Published: {lesson.createdAt}</span>
+                  <span>Published: {published}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-slate-600">
                   <Eye className="w-4 h-4 text-slate-400" />

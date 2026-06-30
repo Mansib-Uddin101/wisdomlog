@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }) {
       </div>
     );
   }
-
+  
   // 2. Navigation Link Configurations
   const userLinks = [
     { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
@@ -39,6 +39,7 @@ export default function DashboardLayout({ children }) {
     { name: 'Manage Users', href: '/dashboard/admin/manage-users', icon: Users },
     { name: 'Manage Lessons', href: '/dashboard/admin/manage-lessons', icon: BookOpen },
     { name: 'Reported Queue', href: '/dashboard/admin/reported-lessons', icon: Star },
+    { name: 'Profile', href: '/dashboard/admin/profile', icon: User },
   ];
 
   const linksToRender = user?.role === 'admin' ? [...userLinks, ...adminLinks] : userLinks;

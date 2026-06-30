@@ -29,10 +29,12 @@ export default function CommentSection({ comments, lessonId }) {
             createdAt: new Date().toISOString()
         }
         try {
+            const { data: tokenData } = await authClient.token()
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    authorization: `Bearer ${tokenData?.token}`
                 },
                 body: JSON.stringify(commentPostData),
             });

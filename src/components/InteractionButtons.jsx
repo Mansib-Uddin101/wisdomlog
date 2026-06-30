@@ -32,8 +32,16 @@ export default function InteractionButtons({ initialLikes = [], lessonId, lesson
       }
 
       try {
+        const { data: tokenData } = await authClient.token()
         // Replace this URL with your actual endpoint for checking a user's favorite
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites/check?lessonId=${lessonId}&userId=${currentUserId}`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites/check?lessonId=${lessonId}&userId=${currentUserId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${tokenData?.token}`
+            },
+          }
+        )
 
         if (response.ok) {
           const data = await response.json()
@@ -105,12 +113,16 @@ export default function InteractionButtons({ initialLikes = [], lessonId, lesson
       reporterUserId: currentUser?.id,
       reportedUserId: lesson.creatorId,
       reason: reportReason,
+      title: lesson.title,
       timestamp: new Date().toISOString()
     }
     try {
+      const { data: tokenData } = await authClient.token()
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lesson-reports`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        authorization: `Bearer ${tokenData?.token}`,
+
         body: JSON.stringify(reportData),
       })
 
@@ -141,8 +153,8 @@ export default function InteractionButtons({ initialLikes = [], lessonId, lesson
           <button
             onClick={handleLike}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${hasLiked
-                ? 'bg-rose-50 text-rose-600 border border-rose-200'
-                : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
+              ? 'bg-rose-50 text-rose-600 border border-rose-200'
+              : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
               }`}
           >
             <Heart className={`w-4 h-4 ${hasLiked ? 'fill-current' : ''}`} />
@@ -154,8 +166,8 @@ export default function InteractionButtons({ initialLikes = [], lessonId, lesson
             onClick={handleSave}
             disabled={isSaving || isCheckingSaved || isSaved} // Lock if saving, checking, or already saved
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${isSaved
-                ? 'bg-amber-50 text-amber-600 border border-amber-200 opacity-80 cursor-not-allowed'
-                : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 disabled:opacity-50'
+              ? 'bg-amber-50 text-amber-600 border border-amber-200 opacity-80 cursor-not-allowed'
+              : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 disabled:opacity-50'
               }`}
           >
             <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />

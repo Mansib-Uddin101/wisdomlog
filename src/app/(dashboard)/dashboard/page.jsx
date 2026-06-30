@@ -27,7 +27,7 @@ export default function DashboardOverview() {
           </div>
           <div>
             <p className="text-slate-500 text-sm font-medium">Total Lessons</p>
-            <p className="text-2xl font-bold text-[#1E293B]">12</p>
+            <p className="text-2xl font-bold text-[#1E293B]">0</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
@@ -36,7 +36,7 @@ export default function DashboardOverview() {
           </div>
           <div>
             <p className="text-slate-500 text-sm font-medium">Saved Favorites</p>
-            <p className="text-2xl font-bold text-[#1E293B]">34</p>
+            <p className="text-2xl font-bold text-[#1E293B]">0</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
