@@ -42,8 +42,15 @@ export default function ProfilePage() {
           setPublicLessons(userPublicLessons);
         }
 
-        // Fetch total saved favorites for this user
-        const favoritesRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites?userId=${user.id}`);
+        const { data: tokenData } = await authClient.token()
+        const favoritesRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites?userId=${user.id}`,
+          {
+            headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${tokenData?.token}`
+        },
+          }
+        );
         if (favoritesRes.ok) {
           const favoritesData = await favoritesRes.json();
           setSavedCount(favoritesData.length || 0);

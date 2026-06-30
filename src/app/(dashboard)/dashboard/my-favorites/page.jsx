@@ -95,11 +95,12 @@ export default function MyFavorites() {
     setIsDeleting(true);
     
     try {
+      const { data: tokenData } = await authClient.token()
       // We pass the specific Favorite document _id to delete it
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites/${selectedFavoriteId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${sessionData?.token?.value || ''}`
+          authorization: `Bearer ${tokenData?.token}`
         }
       });
 

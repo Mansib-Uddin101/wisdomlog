@@ -16,7 +16,7 @@ export default async function LessonDetailsPage({ params }) {
   // 1. Fetch lesson and comments simultaneously from your local API routes
   const [lessonRes, commentsRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons/${id}`, { cache: 'no-store' }),
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments?lessonId=${id}`, { cache: 'no-store' }) // Adjust route if your API matches another pattern
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments?lessonId=${id}`, { cache: 'no-store', }) // Adjust route if your API matches another pattern
   ])
 
   if (!lessonRes.ok) {

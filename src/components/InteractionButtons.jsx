@@ -80,9 +80,13 @@ export default function InteractionButtons({ initialLikes = [], lessonId, lesson
     }
 
     try {
+      const { data: tokenData } = await authClient.token()
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${tokenData?.token}`
+        },
         body: JSON.stringify(favoriteData),
       })
 

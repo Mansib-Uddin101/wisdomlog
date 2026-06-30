@@ -51,9 +51,9 @@ export default function ReportedLessons() {
       const res2 = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons-reports/${deleteModal.reportId}`, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${tokenData?.token}`
-          }
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${tokenData?.token}`
+        }
       });
 
       if (!res2.ok) throw new Error('Failed to delete flagged lesson');
@@ -72,9 +72,13 @@ export default function ReportedLessons() {
   const handleIgnore = async (reportId) => {
     try {
       console.log(reportId);
-
+      const { data: tokenData } = await authClient.token()
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons-reports/${reportId}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${tokenData?.token}`
+        },
       });
 
       if (!res.ok) throw new Error('Failed to clear report');
