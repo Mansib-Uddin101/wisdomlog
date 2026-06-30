@@ -36,10 +36,12 @@ export default function AddLesson() {
 
     // 3. Console log the variable
     try {
+      const { data: tokenData } = await authClient.token()
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${tokenData?.token}`
         },
         body: JSON.stringify(dataObject),
       });

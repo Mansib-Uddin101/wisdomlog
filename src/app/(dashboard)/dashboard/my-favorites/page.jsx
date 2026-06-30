@@ -29,6 +29,7 @@ export default function MyFavorites() {
       try {        
         const { data: tokenData } = await authClient.token()
         // Fetch raw favorites list for the specific user
+        
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/favorites?userId=${user.id}`, {
           headers: {
             headers: {
@@ -44,6 +45,8 @@ export default function MyFavorites() {
         // Map through the raw favorites and fetch the lesson details for each lessonId
         const populatedFavorites = await Promise.all(
           rawFavorites.map(async (fav) => {
+            console.log(fav);
+            
             try {
               const lessonResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons/${fav.lessonId}`);
               
